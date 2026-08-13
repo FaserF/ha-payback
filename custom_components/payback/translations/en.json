@@ -1,0 +1,38 @@
+{
+  "config": {
+    "flow_title": "Setup PAYBACK Deutschland",
+    "step": {
+      "user": {
+        "description": "Enter your Payback customer card number or email address and password.",
+        "data": {
+          "username": "Customer Number / Email",
+          "password": "Password"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This PAYBACK account is already configured."
+    },
+    "error": {
+      "auth_failed": "Authentication with PAYBACK failed. Please check your credentials.",
+      "unknown": "Unknown error occurred."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure PAYBACK Deutschland",
+        "data": {
+          "update_interval": "Update Interval (hours, min 2, max 168)",
+          "auto_activate_coupons": "Automatically activate coupons in background"
+        }
+      }
+    }
+  },
+  "issues": {
+    "connection_error": {
+      "title": "Error communicating with PAYBACK API",
+      "description": "The integration was unable to refresh Payback data due to rate limits or API connection errors. Serving cached data safely."
+    }
+  }
+}

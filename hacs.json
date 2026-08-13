@@ -1,0 +1,9 @@
+{
+  "name": "PAYBACK Deutschland",
+  "render_readme": true,
+  "country": [
+    "DE"
+  ],
+  "zip_release": true,
+  "filename": "payback.zip"
+}

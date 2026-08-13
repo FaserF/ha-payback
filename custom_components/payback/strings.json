@@ -1,0 +1,41 @@
+{
+  "config": {
+    "flow_title": "Setup PAYBACK Deutschland",
+    "step": {
+      "user": {
+        "description": "Enter your Payback customer card number or email address and password.\n\n**💡 How to obtain Session Cookie (F12 Guide):**\n1. Open Chrome/Firefox and go to [payback.de/coupons](https://www.payback.de/coupons) & log in.\n2. Press **F12** -> **Network tab** (`Netzwerk`).\n3. Press **F5** (Refresh) -> Click any request -> Copy the `Cookie:` header (containing `incap_ses...`).\n4. Paste it below.",
+        "data": {
+          "username": "Customer Number / Email",
+          "password": "Password",
+          "session_cookie": "Session Cookie (F12 Copy, z. B. incap_ses_...)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This PAYBACK account is already configured."
+    },
+    "error": {
+      "auth_failed": "Authentication with PAYBACK failed. Please check your credentials.",
+      "unknown": "Unknown error occurred."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure PAYBACK Deutschland",
+        "description": "Update interval or refresh your session cookie.\n\n**💡 F12 Guide:** Open [payback.de/coupons](https://www.payback.de/coupons) -> **F12** -> **Network** -> **F5** -> Copy `Cookie:` value -> Paste below.",
+        "data": {
+          "update_interval": "Update Interval (hours, min 2, max 168)",
+          "auto_activate_coupons": "Automatically activate coupons in background",
+          "session_cookie": "Session Cookie (`incap_ses...` / `visid_incap...`)"
+        }
+      }
+    }
+  },
+  "issues": {
+    "connection_error": {
+      "title": "Error communicating with PAYBACK API",
+      "description": "The integration was unable to refresh Payback data due to rate limits or API connection errors. Serving cached data safely."
+    }
+  }
+}

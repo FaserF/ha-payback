@@ -1,0 +1,16 @@
+{
+  "domain": "payback",
+  "name": "PAYBACK Deutschland",
+  "codeowners": [
+    "@FaserF"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/FaserF/ha-payback",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/FaserF/ha-payback/issues",
+  "requirements": [
+    "curl_cffi>=0.15.0",
+    "pydantic>=2.13.4"
+  ],
+  "version": "1.0.0"
+}
