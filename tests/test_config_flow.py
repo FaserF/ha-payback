@@ -3,7 +3,7 @@
 from unittest.mock import patch
 
 import pytest
-from homeassistant import config_entries
+from homeassistant import config_entries, data_entry_flow
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -23,7 +23,7 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    assert result["type"] == "form"
+    assert result["type"] in (data_entry_flow.FlowResultType.FORM, "form")
     assert result["step_id"] == "user"
 
     with patch(
@@ -37,7 +37,7 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
                 CONF_PASSWORD: "secret_password",
             },
         )
-        assert result["type"] == "create_entry"
+        assert result["type"] in (data_entry_flow.FlowResultType.CREATE_ENTRY, "create_entry")
         assert result["title"] == "PAYBACK (test_user@example.com)"
         assert result["data"] == {
             CONF_USERNAME: "test_user@example.com",
