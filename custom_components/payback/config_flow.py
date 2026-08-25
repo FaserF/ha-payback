@@ -5,9 +5,13 @@ from __future__ import annotations
 from typing import Any
 
 import voluptuous as vol
-from homeassistant import config_entries
+from homeassistant.config_entries import (
+    ConfigEntry,
+    ConfigFlow,
+    ConfigFlowResult,
+    OptionsFlow,
+)
 from homeassistant.core import callback
-from homeassistant.data_entry_flow import FlowResult
 
 from .api import PaybackAPIClient
 from .const import (
@@ -22,14 +26,14 @@ from .const import (
 )
 
 
-class PaybackConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class PaybackConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for PAYBACK Deutschland."""
 
     VERSION = 1
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the initial user step."""
         errors: dict[str, str] = {}
 
@@ -80,18 +84,18 @@ class PaybackConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @staticmethod
     @callback
     def async_get_options_flow(
-        config_entry: config_entries.ConfigEntry,
-    ) -> config_entries.OptionsFlow:
+        config_entry: ConfigEntry,
+    ) -> OptionsFlow:
         """Get options flow handler."""
         return PaybackOptionsFlowHandler()
 
 
-class PaybackOptionsFlowHandler(config_entries.OptionsFlow):
+class PaybackOptionsFlowHandler(OptionsFlow):
     """Handle options flow for PAYBACK Deutschland."""
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Manage options."""
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
