@@ -1,8 +1,14 @@
 """Test API client for PAYBACK Deutschland."""
 
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
-from custom_components.payback.api import PaybackAPIClient, PaybackPoints, PaybackCoupon, PaybackAccount
+
+from custom_components.payback.api import (
+    PaybackAPIClient,
+    PaybackCoupon,
+    PaybackPoints,
+)
 
 
 def test_payback_models():

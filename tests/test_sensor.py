@@ -1,6 +1,7 @@
 """Test sensor platform for PAYBACK Deutschland integration."""
 
 from unittest.mock import patch
+
 import pytest
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
@@ -30,12 +31,15 @@ async def test_sensors_creation_and_values(hass: HomeAssistant) -> None:
         ],
     )
 
-    with patch(
-        "custom_components.payback.api.PaybackAPIClient.login",
-        return_value=True,
-    ), patch(
-        "custom_components.payback.api.PaybackAPIClient.get_account",
-        return_value=mock_account,
+    with (
+        patch(
+            "custom_components.payback.api.PaybackAPIClient.login",
+            return_value=True,
+        ),
+        patch(
+            "custom_components.payback.api.PaybackAPIClient.get_account",
+            return_value=mock_account,
+        ),
     ):
         await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done()

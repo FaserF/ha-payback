@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from typing import Any
-import voluptuous as vol
 
+import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
@@ -53,7 +53,9 @@ class PaybackConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         data={
                             CONF_USERNAME: username,
                             CONF_PASSWORD: password,
-                            CONF_SESSION_COOKIE: user_input.get(CONF_SESSION_COOKIE, "").strip(),
+                            CONF_SESSION_COOKIE: user_input.get(
+                                CONF_SESSION_COOKIE, ""
+                            ).strip(),
                         },
                     )
                 errors["base"] = "auth_failed"
@@ -100,7 +102,9 @@ class PaybackOptionsFlowHandler(config_entries.OptionsFlow):
                 vol.Optional(
                     CONF_UPDATE_INTERVAL,
                     default=config.get(CONF_UPDATE_INTERVAL, DEFAULT_UPDATE_INTERVAL),
-                ): vol.All(vol.Coerce(int), vol.Range(min=MIN_UPDATE_INTERVAL, max=168)),
+                ): vol.All(
+                    vol.Coerce(int), vol.Range(min=MIN_UPDATE_INTERVAL, max=168)
+                ),
                 vol.Optional(
                     CONF_AUTO_ACTIVATE_COUPONS,
                     default=config.get(CONF_AUTO_ACTIVATE_COUPONS, False),

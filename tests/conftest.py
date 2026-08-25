@@ -2,6 +2,7 @@
 
 import sys
 import types
+
 import pytest
 import pytest_socket
 

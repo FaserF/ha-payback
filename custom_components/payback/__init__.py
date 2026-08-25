@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 import logging
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
-from homeassistant.const import Platform
 
-from .coordinator import PaybackDataUpdateCoordinator
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import Platform
+from homeassistant.core import HomeAssistant
+
 from .const import DOMAIN
+from .coordinator import PaybackDataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 

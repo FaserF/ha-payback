@@ -15,7 +15,7 @@ from homeassistant.helpers import storage
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
-from .api import PaybackAPIClient, PaybackAccount
+from .api import PaybackAccount, PaybackAPIClient
 from .const import (
     CONF_AUTO_ACTIVATE_COUPONS,
     CONF_PASSWORD,
@@ -94,19 +94,25 @@ class PaybackDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             # Jitter delay (5 to 15s) during periodic background updates to avoid timing signatures
             if self.data is not None:
                 jitter = random.uniform(5.0, 15.0)
-                _LOGGER.debug("PAYBACK anti-ban delay: sleeping %.1fs before API call", jitter)
+                _LOGGER.debug(
+                    "PAYBACK anti-ban delay: sleeping %.1fs before API call", jitter
+                )
                 await asyncio.sleep(jitter)
 
             try:
                 # Execute async login & fetch
                 await self.hass.async_add_executor_job(self.client.login)
-                account: PaybackAccount = await self.hass.async_add_executor_job(self.client.get_account)
+                account: PaybackAccount = await self.hass.async_add_executor_job(
+                    self.client.get_account
+                )
 
                 # Process auto-activation if requested
                 if self.auto_activate_coupons:
                     for coupon in account.coupons:
                         if not coupon.activated:
-                            await self.hass.async_add_executor_job(self.client.activate_coupon, coupon.coupon_id)
+                            await self.hass.async_add_executor_job(
+                                self.client.activate_coupon, coupon.coupon_id
+                            )
                             await asyncio.sleep(random.uniform(2.0, 4.0))
 
                 data = {
@@ -172,7 +178,9 @@ class PaybackDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 cached = await self._load_cached_data()
                 if cached:
                     return cached
-                raise UpdateFailed(f"Error communicating with PAYBACK API: {exc}") from exc
+                raise UpdateFailed(
+                    f"Error communicating with PAYBACK API: {exc}"
+                ) from exc
 
     async def _load_cached_data(self) -> dict[str, Any] | None:
         """Load persistent cache from disk."""

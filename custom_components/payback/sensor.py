@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Any
+
 from homeassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription,
@@ -13,8 +14,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .coordinator import PaybackDataUpdateCoordinator
 from .const import DOMAIN
+from .coordinator import PaybackDataUpdateCoordinator
 
 SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
@@ -53,13 +54,14 @@ async def async_setup_entry(
     coordinator: PaybackDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     entities = [
-        PaybackSensorEntity(coordinator, description)
-        for description in SENSOR_TYPES
+        PaybackSensorEntity(coordinator, description) for description in SENSOR_TYPES
     ]
     async_add_entities(entities)
 
 
-class PaybackSensorEntity(CoordinatorEntity[PaybackDataUpdateCoordinator], SensorEntity):
+class PaybackSensorEntity(
+    CoordinatorEntity[PaybackDataUpdateCoordinator], SensorEntity
+):
     """Representation of a PAYBACK Sensor."""
 
     def __init__(

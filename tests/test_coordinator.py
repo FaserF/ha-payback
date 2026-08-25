@@ -1,10 +1,9 @@
 """Test the PAYBACK Deutschland update coordinator."""
 
-from datetime import timedelta
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
+
 import pytest
 from homeassistant.core import HomeAssistant
-from homeassistant.util import dt as dt_util
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.payback.api import PaybackAccount, PaybackCoupon, PaybackPoints
@@ -35,8 +34,9 @@ async def test_coordinator_update_data_success(hass: HomeAssistant) -> None:
         ],
     )
 
-    with patch.object(coordinator.client, "login", return_value=True), patch.object(
-        coordinator.client, "get_account", return_value=mock_account
+    with (
+        patch.object(coordinator.client, "login", return_value=True),
+        patch.object(coordinator.client, "get_account", return_value=mock_account),
     ):
         data = await coordinator._async_update_data()
 
@@ -67,9 +67,13 @@ async def test_coordinator_auto_activate_coupons(hass: HomeAssistant) -> None:
         coupons=[PaybackCoupon(couponId="c1", title="10x Points", activated=False)],
     )
 
-    with patch.object(coordinator.client, "login", return_value=True), patch.object(
-        coordinator.client, "get_account", return_value=mock_account
-    ), patch.object(coordinator.client, "activate_coupon", return_value=True) as mock_activate:
+    with (
+        patch.object(coordinator.client, "login", return_value=True),
+        patch.object(coordinator.client, "get_account", return_value=mock_account),
+        patch.object(
+            coordinator.client, "activate_coupon", return_value=True
+        ) as mock_activate,
+    ):
         await coordinator._async_update_data()
         mock_activate.assert_called_once_with("c1")
 
@@ -91,8 +95,11 @@ async def test_coordinator_backoff_and_cache_fallback(hass: HomeAssistant) -> No
         "coupons": [],
     }
 
-    with patch.object(coordinator.store, "async_load", return_value=cached_data), patch.object(
-        coordinator.client, "login", side_effect=Exception("Rate limit 429")
+    with (
+        patch.object(coordinator.store, "async_load", return_value=cached_data),
+        patch.object(
+            coordinator.client, "login", side_effect=Exception("Rate limit 429")
+        ),
     ):
         data = await coordinator._async_update_data()
         assert data["customer_name"] == "Cached User"

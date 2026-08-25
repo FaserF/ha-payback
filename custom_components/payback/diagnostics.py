@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Any
+
 from homeassistant.components.diagnostics import async_redact_data
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -34,7 +35,9 @@ async def async_get_config_entry_diagnostics(
             "options": async_redact_data(entry.options, TO_REDACT),
         },
         "coordinator": {
-            "username": async_redact_data({"username": coordinator.username}, TO_REDACT).get("username"),
+            "username": async_redact_data(
+                {"username": coordinator.username}, TO_REDACT
+            ).get("username"),
             "consecutive_failures": coordinator._consecutive_failures,
             "last_success": coordinator._last_success.isoformat()
             if coordinator._last_success

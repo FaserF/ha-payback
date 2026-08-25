@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from typing import Any, Literal
+
 from curl_cffi import requests
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -16,6 +17,7 @@ USER_AGENT = "PAYBACK/8.5.0 (Android 14; Mobile; de_DE)"
 
 class PaybackPoints(BaseModel):
     """Payback points breakdown."""
+
     model_config = ConfigDict(extra="allow", populate_by_name=True)
     total_points: int = Field(default=0, alias="totalPoints")
     available_points: int = Field(default=0, alias="availablePoints")
@@ -24,6 +26,7 @@ class PaybackPoints(BaseModel):
 
 class PaybackCoupon(BaseModel):
     """Payback coupon details."""
+
     model_config = ConfigDict(extra="allow", populate_by_name=True)
     coupon_id: str = Field(default="", alias="couponId")
     title: str = Field(default="")
@@ -36,6 +39,7 @@ class PaybackCoupon(BaseModel):
 
 class PaybackAccount(BaseModel):
     """Payback account summary."""
+
     model_config = ConfigDict(extra="allow", populate_by_name=True)
     card_number: str = Field(default="", alias="cardNumber")
     customer_name: str = Field(default="", alias="customerName")
@@ -46,7 +50,9 @@ class PaybackAccount(BaseModel):
 class PaybackAPIClient:
     """API client interacting with Payback native API using curl_cffi for TLS impersonation."""
 
-    def __init__(self, username: str, password: str, session_cookie: str | None = None) -> None:
+    def __init__(
+        self, username: str, password: str, session_cookie: str | None = None
+    ) -> None:
         self.username = username
         self.password = password
         self.session_cookie = session_cookie

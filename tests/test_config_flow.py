@@ -1,6 +1,7 @@
 """Test the PAYBACK Deutschland config flow."""
 
 from unittest.mock import patch
+
 import pytest
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
