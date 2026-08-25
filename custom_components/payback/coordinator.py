@@ -91,10 +91,11 @@ class PaybackDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         # 2. Acquire Global Lock (ANTI-BAN - zero concurrent requests)
         async with _GLOBAL_FETCH_LOCK:
-            # Jitter delay (5 to 15s) to avoid timing signatures
-            jitter = random.uniform(5.0, 15.0)
-            _LOGGER.debug("PAYBACK anti-ban delay: sleeping %.1fs before API call", jitter)
-            await asyncio.sleep(jitter)
+            # Jitter delay (5 to 15s) during periodic background updates to avoid timing signatures
+            if self.data is not None:
+                jitter = random.uniform(5.0, 15.0)
+                _LOGGER.debug("PAYBACK anti-ban delay: sleeping %.1fs before API call", jitter)
+                await asyncio.sleep(jitter)
 
             try:
                 # Execute async login & fetch
