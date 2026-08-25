@@ -13,6 +13,7 @@ from .api import PaybackAPIClient
 from .const import (
     CONF_AUTO_ACTIVATE_COUPONS,
     CONF_PASSWORD,
+    CONF_SESSION_COOKIE,
     CONF_UPDATE_INTERVAL,
     CONF_USERNAME,
     DEFAULT_UPDATE_INTERVAL,
