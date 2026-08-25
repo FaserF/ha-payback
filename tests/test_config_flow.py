@@ -37,7 +37,10 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
                 CONF_PASSWORD: "secret_password",
             },
         )
-        assert result["type"] in (data_entry_flow.FlowResultType.CREATE_ENTRY, "create_entry")
+        assert result["type"] in (
+            data_entry_flow.FlowResultType.CREATE_ENTRY,
+            "create_entry",
+        )
         assert result["title"] == "PAYBACK (test_user@example.com)"
         assert result["data"] == {
             CONF_USERNAME: "test_user@example.com",
