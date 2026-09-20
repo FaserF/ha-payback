@@ -9,8 +9,8 @@
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/FaserF/ha-payback/issues",
   "requirements": [
-    "curl_cffi>=0.15.0",
-    "pydantic>=2.13.4"
+    "curl_cffi==0.16.3",
+    "pydantic==2.13.5"
   ],
   "version": "1.0.0"
 }
