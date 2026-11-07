@@ -12,5 +12,6 @@
     "curl_cffi>=0.15.0",
     "pydantic>=2.13.4"
   ],
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "quality_scale": "platinum"
 }
