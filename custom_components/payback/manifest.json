@@ -10,7 +10,7 @@
   "issue_tracker": "https://github.com/FaserF/ha-payback/issues",
   "requirements": [
     "curl_cffi==0.17.0",
-    "pydantic==2.14.3"
+    "pydantic==2.14.4"
   ],
   "version": "1.0.0",
   "quality_scale": "platinum"
