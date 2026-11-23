@@ -34,7 +34,7 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
             result["flow_id"],
             {
                 CONF_USERNAME: "test_user@example.com",
-                CONF_PASSWORD: "secret_password",
+                CONF_[REDACTED_SECRET_62773],
             },
         )
         assert result["type"] in (
@@ -44,7 +44,7 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
         assert result["title"] == "PAYBACK (test_user@example.com)"
         assert result["data"] == {
             CONF_USERNAME: "test_user@example.com",
-            CONF_PASSWORD: "secret_password",
+            CONF_[REDACTED_SECRET_62773],
         }
 
 
@@ -62,7 +62,7 @@ async def test_flow_user_auth_failed(hass: HomeAssistant) -> None:
             result["flow_id"],
             {
                 CONF_USERNAME: "test_user@example.com",
-                CONF_PASSWORD: "wrong_password",
+                CONF_[REDACTED_SECRET_86985],
             },
         )
         assert result["type"] == "form"
