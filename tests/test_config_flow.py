@@ -10,6 +10,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.payback.const import (
     CONF_AUTO_ACTIVATE_COUPONS,
     CONF_PASSWORD,
+    CONF_SESSION_COOKIE,
     CONF_UPDATE_INTERVAL,
     CONF_USERNAME,
     DOMAIN,
@@ -25,6 +26,9 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
     )
     assert result["type"] in (data_entry_flow.FlowResultType.FORM, "form")
     assert result["step_id"] == "user"
+    assert result["description_placeholders"] == {
+        "coupons_url": "https://www.payback.de/coupons"
+    }
 
     with patch(
         "custom_components.payback.api.PaybackAPIClient.login",
@@ -45,6 +49,7 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
         assert result["data"] == {
             CONF_USERNAME: "test_user@example.com",
             CONF_PASSWORD: "secret_password",
+            CONF_SESSION_COOKIE: "",
         }
 
 
@@ -111,6 +116,9 @@ async def test_options_flow(hass: HomeAssistant) -> None:
     result = await hass.config_entries.options.async_init(entry.entry_id)
     assert result["type"] == "form"
     assert result["step_id"] == "init"
+    assert result["description_placeholders"] == {
+        "coupons_url": "https://www.payback.de/coupons"
+    }
 
     result = await hass.config_entries.options.async_configure(
         result["flow_id"],
@@ -122,4 +130,5 @@ async def test_options_flow(hass: HomeAssistant) -> None:
     assert result["data"] == {
         CONF_UPDATE_INTERVAL: 8,
         CONF_AUTO_ACTIVATE_COUPONS: True,
+        CONF_SESSION_COOKIE: "",
     }

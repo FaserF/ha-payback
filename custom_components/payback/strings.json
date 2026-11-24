@@ -3,11 +3,11 @@
     "flow_title": "Setup PAYBACK Deutschland",
     "step": {
       "user": {
-        "description": "Enter your Payback customer card number or email address and password.\n\n**💡 How to obtain Session Cookie (F12 Guide):**\n1. Open Chrome/Firefox and go to [payback.de/coupons](https://www.payback.de/coupons) & log in.\n2. Press **F12** -> **Network tab** (`Netzwerk`).\n3. Press **F5** (Refresh) -> Click any request -> Copy the `Cookie:` header (containing `incap_ses...`).\n4. Paste it below.",
+        "description": "Enter your Payback customer card number or email address and password.\n\n**How to obtain Session Cookie (F12 Guide):**\n1. Open Chrome/Firefox and go to [payback.de/coupons]({coupons_url}) & log in.\n2. Press **F12** -> **Network tab** (`Netzwerk`).\n3. Press **F5** (Refresh) -> Click any request -> Copy the full `Cookie:` request header value (containing `incap_ses_...` and `visid_incap_...`).\n4. Paste it below.",
         "data": {
           "username": "Customer Number / Email",
           "password": "Password",
-          "session_cookie": "Session Cookie (F12 Copy, z. B. incap_ses_...)"
+          "session_cookie": "Session Cookie (F12 Copy, e.g. incap_ses_...)"
         }
       }
     },
@@ -23,7 +23,7 @@
     "step": {
       "init": {
         "title": "Configure PAYBACK Deutschland",
-        "description": "Update interval or refresh your session cookie.\n\n**💡 F12 Guide:** Open [payback.de/coupons](https://www.payback.de/coupons) -> **F12** -> **Network** -> **F5** -> Copy `Cookie:` value -> Paste below.",
+        "description": "Update interval or refresh your session cookie.\n\n**F12 Guide:** Open [payback.de/coupons]({coupons_url}) -> **F12** -> **Network** -> **F5** -> Copy the full `Cookie:` request header value -> Paste below.",
         "data": {
           "update_interval": "Update Interval (hours, min 2, max 168)",
           "auto_activate_coupons": "Automatically activate coupons in background",

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 import voluptuous as vol
 from homeassistant.config_entries import (
@@ -77,7 +77,8 @@ class PaybackConfigFlow(ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="user",
-            data_schema=schema,
+            data_schema=cast(Any, schema),
+            description_placeholders={"coupons_url": "https://www.payback.de/coupons"},
             errors=errors,
         )
 
@@ -121,4 +122,8 @@ class PaybackOptionsFlowHandler(OptionsFlow):
             }
         )
 
-        return self.async_show_form(step_id="init", data_schema=schema)
+        return self.async_show_form(
+            step_id="init",
+            data_schema=cast(Any, schema),
+            description_placeholders={"coupons_url": "https://www.payback.de/coupons"},
+        )

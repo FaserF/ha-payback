@@ -3,7 +3,7 @@
     "flow_title": "PAYBACK Deutschland einrichten",
     "step": {
       "user": {
-        "description": "Gib deine Payback Kundennummer/E-Mail und dein Passwort ein.\n\n**💡 Schritt-für-Schritt Anleitung (Session Cookie via F12):**\n1. Öffne im Browser [payback.de/coupons](https://www.payback.de/coupons) und melde dich an.\n2. Drücke **F12** -> Wähle den Tab **Netzwerk** (`Network`).\n3. Drücke **F5** (Seite neu laden) -> Klicke auf eine beliebige Anfrage -> Kopiere den Wert von `Cookie:` (enthält `incap_ses...`).\n4. Füge den kopierten Wert unten ein.",
+        "description": "Gib deine Payback Kundennummer/E-Mail und dein Passwort ein.\n\n**Schritt-für-Schritt Anleitung (Session Cookie via F12):**\n1. Öffne im Browser [payback.de/coupons]({coupons_url}) und melde dich an.\n2. Drücke **F12** -> Wähle den Tab **Netzwerk** (`Network`).\n3. Drücke **F5** (Seite neu laden) -> Klicke auf eine beliebige Anfrage -> Kopiere den vollständigen Wert von `Cookie:` aus den Request-Headern (enthält `incap_ses_...` und `visid_incap_...`).\n4. Füge den kopierten Wert unten ein.",
         "data": {
           "username": "Kundennummer / E-Mail",
           "password": "Passwort",
@@ -23,7 +23,7 @@
     "step": {
       "init": {
         "title": "PAYBACK Deutschland konfigurieren",
-        "description": "Update-Intervall ändern oder neuen Session Cookie einfügen.\n\n**💡 F12 Anleitung:** [payback.de/coupons](https://www.payback.de/coupons) öffnen -> **F12** -> **Netzwerk** -> **F5** -> `Cookie:` kopieren -> Unten einfügen.",
+        "description": "Update-Intervall ändern oder neuen Session Cookie einfügen.\n\n**F12 Anleitung:** [payback.de/coupons]({coupons_url}) öffnen -> **F12** -> **Netzwerk** -> **F5** -> vollständigen `Cookie:`-Header kopieren -> Unten einfügen.",
         "data": {
           "update_interval": "Update-Intervall (Stunden, Min 2, Max 168)",
           "auto_activate_coupons": "Coupons automatisch im Hintergrund aktivieren",

@@ -18,6 +18,10 @@
       "matchUpdateTypes": ["minor", "patch"],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
+    },
+    {
+      "matchFileNames": ["custom_components/*/manifest.json"],
+      "enabled": false
     }
   ],
   "github-actions": {
