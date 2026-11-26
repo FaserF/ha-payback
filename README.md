@@ -118,8 +118,8 @@ Payback utilizes **Imperva/Incapsula** Cloud WAF bot protection. If live API que
 | **2. Developer Tools** | Press `F12` (or Right-Click anywhere -> Inspect). |
 | **3. Network Tab** | Switch to the **Network** (`Netzwerk`) tab at the top. |
 | **4. Refresh Page** | Press `F5` to reload the page with network recording enabled. |
-| **5. Select Request** | Click on any HTTP request starting with `coupons` or `account`. |
-| **6. Copy Cookie Header** | In the **Request Headers** section on the right, find `Cookie:` and copy the **entire** semicolon-separated string (e.g. `visid_incap_...=...; incap_ses_...=...`, including `key=value` pairs — do **not** copy only a single cookie value from the Storage/Application tab). |
+| **5. Select Request** | Click on any HTTP request to `www.payback.de` (e.g. `coupons` or `punktekonto`). |
+| **6. Copy Cookie Header** | In the **Request Headers** section on the right, find `Cookie:` and copy the **entire** semicolon-separated value (including `BIGipServerpool_...`, `visid_incap_...`, `incap_ses_...`, `bbst=...`, etc. — with or without the leading `Cookie:` label; do **not** copy only a single value from the Application/Storage tab). |
 | **7. Paste in HA** | Paste the copied `key=value; ...` string into the **Session Cookie** field during setup or in the integration **Configure** menu. |
 
 ---

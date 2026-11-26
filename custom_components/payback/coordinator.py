@@ -10,12 +10,18 @@ from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers import storage
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
-from .api import PaybackAccount, PaybackAPIClient
+from .api import (
+    PaybackAccount,
+    PaybackAPIClient,
+    PaybackAuthError,
+    PaybackCookieError,
+)
 from .const import (
     CONF_AUTO_ACTIVATE_COUPONS,
     CONF_PASSWORD,
@@ -149,6 +155,11 @@ class PaybackDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 # Save to persistent storage to survive restarts
                 await self.store.async_save(data)
                 return data
+
+            except (PaybackAuthError, PaybackCookieError) as exc:
+                raise ConfigEntryAuthFailed(
+                    f"PAYBACK authentication failed or session cookie expired: {exc}"
+                ) from exc
 
             except Exception as exc:
                 self._consecutive_failures += 1

@@ -13,7 +13,13 @@ from homeassistant.config_entries import (
 )
 from homeassistant.core import callback
 
-from .api import PaybackAPIClient
+from .api import (
+    PaybackAPIClient,
+    PaybackAuthError,
+    PaybackCookieError,
+    PaybackWAFError,
+    normalize_cookie_header,
+)
 from .const import (
     CONF_AUTO_ACTIVATE_COUPONS,
     CONF_PASSWORD,
@@ -44,11 +50,19 @@ class PaybackConfigFlow(ConfigFlow, domain=DOMAIN):
             await self.async_set_unique_id(username.lower())
             self._abort_if_unique_id_configured()
 
+            raw_cookie = user_input.get(CONF_SESSION_COOKIE, "").strip()
+            parsed_cookies = normalize_cookie_header(raw_cookie)
+            normalized_cookie = (
+                "; ".join(f"{k}={v}" for k, v in parsed_cookies.items())
+                if parsed_cookies
+                else raw_cookie
+            )
+
             # Test credentials
             client = PaybackAPIClient(
                 username=username,
                 password=password,
-                session_cookie=user_input.get(CONF_SESSION_COOKIE, "").strip() or None,
+                session_cookie=normalized_cookie or None,
             )
             try:
                 valid = await self.hass.async_add_executor_job(client.login)
@@ -58,13 +72,15 @@ class PaybackConfigFlow(ConfigFlow, domain=DOMAIN):
                         data={
                             CONF_USERNAME: username,
                             CONF_PASSWORD: password,
-                            CONF_SESSION_COOKIE: user_input.get(
-                                CONF_SESSION_COOKIE, ""
-                            ).strip(),
+                            CONF_SESSION_COOKIE: normalized_cookie,
                         },
                     )
                 errors["base"] = "auth_failed"
-            except Exception:
+            except PaybackCookieError:
+                errors["base"] = "invalid_cookie"
+            except PaybackWAFError:
+                errors["base"] = "waf_blocked"
+            except PaybackAuthError, Exception:
                 errors["base"] = "auth_failed"
 
         schema = vol.Schema(

@@ -15,7 +15,9 @@
       "already_configured": "This PAYBACK account is already configured."
     },
     "error": {
-      "auth_failed": "Authentication with PAYBACK failed. Please check your credentials.",
+      "auth_failed": "Authentication with PAYBACK failed. Please check your credentials or session cookie.",
+      "invalid_cookie": "The provided session cookie is incomplete or invalid. Please copy the full Cookie: request header from payback.de/coupons.",
+      "waf_blocked": "Request was blocked by PAYBACK bot protection (Imperva WAF). Please refresh your browser session cookie.",
       "unknown": "Unknown error occurred."
     }
   },

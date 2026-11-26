@@ -105,3 +105,29 @@ async def test_coordinator_backoff_and_cache_fallback(hass: HomeAssistant) -> No
         assert data["customer_name"] == "Cached User"
         assert coordinator._consecutive_failures == 1
         assert coordinator._backoff_until is not None
+
+
+async def test_coordinator_auth_error_triggers_reauth(hass: HomeAssistant) -> None:
+    """Expired cookie or auth failure raises ConfigEntryAuthFailed."""
+    from homeassistant.exceptions import ConfigEntryAuthFailed
+
+    from custom_components.payback.api import PaybackAuthError
+
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_USERNAME: "test_user@example.com", CONF_PASSWORD: "password"},
+        unique_id="test_user@example.com",
+    )
+    entry.add_to_hass(hass)
+
+    coordinator = PaybackDataUpdateCoordinator(hass, entry)
+
+    with (
+        patch.object(
+            coordinator.client,
+            "login",
+            side_effect=PaybackAuthError("Cookie expired"),
+        ),
+        pytest.raises(ConfigEntryAuthFailed),
+    ):
+        await coordinator._async_update_data()

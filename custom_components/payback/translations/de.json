@@ -15,7 +15,9 @@
       "already_configured": "Dieses PAYBACK-Konto ist bereits konfiguriert."
     },
     "error": {
-      "auth_failed": "Anmeldung bei PAYBACK fehlgeschlagen. Bitte überprüfe deine Zugangsdaten.",
+      "auth_failed": "Anmeldung bei PAYBACK fehlgeschlagen. Bitte überprüfe deine Zugangsdaten oder den Session Cookie.",
+      "invalid_cookie": "Der eingefügte Session Cookie ist unvollständig oder ungültig. Bitte kopiere den vollständigen Cookie:-Header von payback.de/coupons.",
+      "waf_blocked": "Anfrage wurde vom PAYBACK Bot-Schutz (Imperva WAF) blockiert. Bitte erneuere deinen Browser Session Cookie.",
       "unknown": "Unbekannter Fehler aufgetreten."
     }
   },

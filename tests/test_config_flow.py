@@ -74,6 +74,45 @@ async def test_flow_user_auth_failed(hass: HomeAssistant) -> None:
         assert result["errors"] == {"base": "auth_failed"}
 
 
+async def test_flow_user_cookie_and_waf_errors(hass: HomeAssistant) -> None:
+    """Config flow maps PaybackCookieError and PaybackWAFError to distinct error keys."""
+    from custom_components.payback.api import PaybackCookieError, PaybackWAFError
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with patch(
+        "custom_components.payback.api.PaybackAPIClient.login",
+        side_effect=PaybackCookieError("Missing bbst"),
+    ):
+        r1 = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {
+                CONF_USERNAME: "cookie_user@example.com",
+                CONF_PASSWORD: "pw",
+                CONF_SESSION_COOKIE: "Cookie: foo=bar",
+            },
+        )
+        assert r1["type"] == "form"
+        assert r1["errors"] == {"base": "invalid_cookie"}
+
+    with patch(
+        "custom_components.payback.api.PaybackAPIClient.login",
+        side_effect=PaybackWAFError("Blocked"),
+    ):
+        r2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {
+                CONF_USERNAME: "cookie_user@example.com",
+                CONF_PASSWORD: "pw",
+                CONF_SESSION_COOKIE: "incap_ses_1=abc; bbst=xyz",
+            },
+        )
+        assert r2["type"] == "form"
+        assert r2["errors"] == {"base": "waf_blocked"}
+
+
 async def test_flow_already_configured(hass: HomeAssistant) -> None:
     """Test config flow aborts when the same user is already configured."""
     entry = MockConfigEntry(
